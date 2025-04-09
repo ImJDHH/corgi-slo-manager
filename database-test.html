@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CorgiSLO Database Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        #results {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+        .test-button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CorgiSLO Database Test</h1>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2>Database Tests</h2>
+            </div>
+            <div class="card-body">
+                <div class="button-group">
+                    <button id="test-connection" class="btn primary test-button">Test Connection</button>
+                    <button id="view-stores" class="btn primary test-button">View Stores</button>
+                    <button id="count-records" class="btn primary test-button">Count Records</button>
+                    <button id="load-sample" class="btn primary test-button">Load Sample Data</button>
+                    <button id="clear-db" class="btn danger test-button">Clear Database</button>
+                </div>
+                <div id="results">Results will appear here...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="js/core/ui.js"></script>
+    <script src="js/core/database.js"></script>
+    
+    <!-- Feature Scripts -->
+    <script src="js/features/tools.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const resultsDiv = document.getElementById('results');
+            
+            // Helper function to log to results
+            function log(message, type = 'info') {
+                const logItem = document.createElement('div');
+                logItem.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                logItem.className = type;
+                resultsDiv.appendChild(logItem);
+                resultsDiv.scrollTop = resultsDiv.scrollHeight;
+            }
+            
+            // Initialize database
+            try {
+                await Database.init();
+                log('Database initialized successfully', 'success');
+            } catch (error) {
+                log(`Database initialization error: ${error.message}`, 'error');
+                console.error(error);
+            }
+            
+            // Test connection
+            document.getElementById('test-connection').addEventListener('click', async () => {
+                try {
+                    await Database.init();
+                    log('Database connection successful', 'success');
+                } catch (error) {
+                    log(`Database connection error: ${error.message}`, 'error');
+                    console.error(error);
+                }
+            });
+            
+            // View stores
+            document.getElementById('view-stores').addEventListener('click', async () => {
+                try {
+                    const stores = Object.values(Database.STORES);
+                    log(`Available stores (${stores.length}):`, 'success');
+                    stores.forEach(store => log(`- ${store}`));
+                } catch (error) {
+                    log(`Error listing stores: ${error.message}`, 'error');
+                    console.error(error);
+                }
+            });
+            
+            // Count records in all stores
+            document.getElementById('count-records').addEventListener('click', async () => {
+                try {
+                    const stores = Object.values(Database.STORES);
+                    log('Counting records in all stores...', 'info');
+                    
+                    for (const store of stores) {
+                        try {
+                            const records = await Database.getAll(store);
+                            log(`${store}: ${records.length} records`, 'success');
+                        } catch (error) {
+                            log(`Error counting ${store}: ${error.message}`, 'error');
+                        }
+                    }
+                } catch (error) {
+                    log(`Error counting records: ${error.message}`, 'error');
+                    console.error(error);
+                }
+            });
+            
+            // Load sample data
+            document.getElementById('load-sample').addEventListener('click', async () => {
+                try {
+                    log('Loading sample data...', 'info');
+                    await window.toolsModule.handleLoadSampleData();
+                    log('Sample data loading triggered', 'success');
+                } catch (error) {
+                    log(`Error loading sample data: ${error.message}`, 'error');
+                    console.error(error);
+                }
+            });
+            
+            // Clear database
+            document.getElementById('clear-db').addEventListener('click', async () => {
+                if (confirm('Are you sure you want to clear all database stores? This cannot be undone.')) {
+                    try {
+                        const stores = Object.values(Database.STORES);
+                        log('Clearing all database stores...', 'info');
+                        
+                        for (const store of stores) {
+                            try {
+                                await Database.clearStore(store);
+                                log(`Cleared ${store}`, 'success');
+                            } catch (error) {
+                                log(`Error clearing ${store}: ${error.message}`, 'error');
+                            }
+                        }
+                        
+                        log('All stores cleared successfully', 'success');
+                    } catch (error) {
+                        log(`Error clearing database: ${error.message}`, 'error');
+                        console.error(error);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corgi SLO Manager</title>
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0iIzQyODVGNCIgLz48dGV4dCB4PSI1MCIgeT0iNDUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TTE88L3RleHQ+PHBhdGggZD0iTTMwLDYwIEMzNSw3MCA2NSw3MCA3MCw2MCBDNzAsNTAgNjUsNDUgNTAsNDUgQzM1LDQ1IDMwLDUwIDMwLDYwIFoiIGZpbGw9IiNGOUFCMDAiIC8+PGNpcmNsZSBjeD0iNDAiIGN5PSI1NSIgcj0iMi41IiBmaWxsPSIjMzMzIiAvPjxjaXJjbGUgY3g9IjYwIiBjeT0iNTUiIHI9IjIuNSIgZmlsbD0iIzMzMyIgLz48L3N2Zz4=">
+    <!-- Alternative favicon formats for broader browser support -->
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAC5ElEQVR42mNkGGDAOOqAUQeMOgCvA1JSUjKAVA4QuwCxAhArALE0EHMBsQEQbwLiRUC8AYhnA/HsgoKCs8h6mSA0VlBSUrIUSJUBcR8QGwGxEBbLvgHxdiDuB+JpBQUFe3GaLyMjIwSkOoA4H4h5CITcUyBeBcQTCwsLr8JdgSMEgIFfD6Q2ADEvEcH+E4jjgbgVZBleB0hKSoYA6YVAzEOC438CcTLQEZvxOkBKSioGSE8BYn4S4/43EPsXFhaeRXcAcgitB9K8ZMb9LyAOBTrgILoDJCQkOFhYWEKZmJgC2NnZwza0aXOBwlhYVASEfS5evMj98+dPtv///3N9//6d6d+/f/q/f/9e+Pfv3717Dx68ATpgI8wBQIfwAanNpMQ5yAG/f/9mefv2LQMnJycDJycnw7t37xhA9L1795h+/PjB8OTJE4Y/f/4wgGilUEk1dXV1hm/fvjGcP3/+JhD3FhYWzgE7QFJS0glIbwJiYWIcAArxf//+Mfz9+5cB5ABQuIP4QPzr1y+GT58+MQADBuQA0SdPnjB8/vwZGQ8DOoDh5MmTx4qKihyBDngIdAArkN4CxCLEOgDmMxBggAY7KOhhOGhzc5sWgp7m5mYdoAMYWVhYGMrLy4EOYPgH2Sn0Z2BgmAbEZkAsQWLi4wXiacBQiGFgZmbOAeIVQMxOogNAocSbk5OzBsUBQEGwA94BcQyVSl5XYGJlgQ4ApsY5QPxeR0dHgZmZ+T+JDvgPDKFdRUVFF1EcAKSXQQuyj0DMRaQDvkGKbaJKY6AF+YFkx29oPMsS4YAfQOwHNJu09jloJdh8UF5HINEBoNJUj2jHQ+IflOAWQcvmdUBBkANAiVE1NDRkPrS2JxTA8nRhYSFJ7QEYmAZkvkAslPyh7fhJQJu+kuoAGLA1NjZO1dbWJnl8cPXq1UlAs+8R6wAAw/EkaCJKjYMAAAAASUVORK5CYII=">
+    <link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABmUlEQVR42o2TTUtCQRSGRwvTIIgo+oAoogjaRBQRtGvRIvoBoYt2QdCPaNGyH9CiTUEEBUHrWkWrqE2LICLIdEUppIL5dTXNMZ3xTokXWgw8cJl75r5nzpz3vSMAInwSTcSTBKB5hec0rmOZmZJo8YdF2k2SZFmcNDY9zQT1d+Qox5rEYDBYBW1JkiRjNpuVj+ZwOKTm9lkFULgEgZlMplQul5HL5ZQrl8vodDrw+/1iARjNsNfrxXa7RavVUq7ZbKJer6NarSIQCAgDXC4X1us1DocDDocDLpcLbNb3er0iAdYkSZKSdrsdDocDqtUq+v0+BoMBptNpEoBljsdjNBoNrFYr7HY7ZLPZIGOdkgGEGLLZbMh1Pp+jXC6j0WhgsVggn88LAYi05/F4QAKsBzLjDfPx3GQykXgTMmBNBoOBBBhy2Ww2Ua1WlU6SyeTjbgKGXC6n/A2BDofDpwCXywUJRKNRGI1GBAIB2Gw2+Hw+BINBz1GA3W4nB3SfUOlDnP+A9QLOQSwWC/ERLGZAJBIhgksiOZYJ/jMSn+4fQP8eU+3yxwUAAAAASUVORK5CYII="
+    
+    <!-- Custom style override for view button -->
+    <style>
+        /* Fix for view action button */
+        .btn-icon[data-action="view"] {
+            background-color: white !important;
+            color: rgba(0, 0, 0, 0.87) !important;
+            border-radius: 4px !important;
+            width: 32px !important;
+            height: 32px !important;
+            border: 1px solid rgba(0, 0, 0, 0.12) !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        /* Fix for icon */
+        .btn-icon[data-action="view"] .material-icons {
+            font-size: 18px !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header class="app-header">
+            <div class="logo-container">
+                <img src="assets/logo.svg" alt="Corgi SLO Manager" class="logo">
+                <h1>Corgi SLO Manager</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="#home" class="nav-link" data-route="home">
+                            <span class="material-icons nav-icon">home</span>
+                            <span class="nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#dashboard" class="nav-link" data-route="dashboard">
+                            <span class="material-icons nav-icon">dashboard</span>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#cujs" class="nav-link highlight-nav" data-route="cujs">
+                            <span class="material-icons nav-icon">directions_walk</span>
+                            <span class="nav-text">CUJs</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#slos" class="nav-link highlight-nav" data-route="slos">
+                            <span class="material-icons nav-icon">speed</span>
+                            <span class="nav-text">SLOs</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#teams" class="nav-link" data-route="teams">
+                            <span class="material-icons nav-icon">people</span>
+                            <span class="nav-text">Teams</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#services" class="nav-link" data-route="services">
+                            <span class="material-icons nav-icon">cloud</span>
+                            <span class="nav-text">Services</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tools" class="nav-link" data-route="tools">
+                            <span class="material-icons nav-icon">build</span>
+                            <span class="nav-text">Tools</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#documentation" class="nav-link" data-route="documentation">
+                            <span class="material-icons nav-icon">book</span>
+                            <span class="nav-text">Docs</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="user-controls">
+                <button class="btn-icon notification-btn" aria-label="Notifications">
+                    <span class="material-icons">notifications</span>
+                    <span class="badge">0</span>
+                </button>
+                <div class="user-profile">
+                    <img src="assets/default-avatar.png" alt="User Avatar">
+                    <span class="username">Sign In</span>
+                    <button class="btn-icon" aria-label="User menu">
+                        <span class="material-icons">arrow_drop_down</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="app-content">
+            <!-- Views will be loaded dynamically here -->
+            <div id="view-container"></div>
+        </main>
+
+        <footer class="app-footer">
+            <div class="footer-content">
+                <p>&copy; 2024 Corgi SLO Manager | <span class="version-info">Version 1.0</span> | <span class="author-info">Created by Joshua Han</span></p>
+                <div class="footer-links">
+                    <a href="#help">Help</a>
+                    <a href="#documentation">Documentation</a>
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#debug">Debug</a>
+                    <a href="tests.html" target="_blank">Run Tests</a>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Modals Container -->
+        <div id="modal-container"></div>
+        
+        <!-- Toast Notifications -->
+        <div id="toast-container"></div>
+    </div>
+
+    <!-- Templates -->
+    <template id="home-template">
+        <section class="home-view">
+            <header class="section-header">
+                <h2>Welcome to Corgi SLO Manager</h2>
+            </header>
+
+            <div class="app-intro">
+                <div class="intro-card">
+                    <h3>What is Corgi SLO Manager?</h3>
+                    <p>Corgi SLO Manager is a comprehensive tool for defining, tracking, and managing Service Level Objectives (SLOs) across your organization. It helps teams establish reliability targets based on customer experiences, monitor service health, and drive improvements.</p>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="material-icons feature-icon">groups</span>
+                    <h3>Teams</h3>
+                    <p>Organize your organization by teams, allowing each team to manage their own services, CUJs, and SLOs.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="material-icons feature-icon">settings</span>
+                    <h3>Services</h3>
+                    <p>Define the services that your teams own and maintain, which will be the basis for your SLOs.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="material-icons feature-icon">route</span>
+                    <h3>Critical User Journeys (CUJs)</h3>
+                    <p>Identify the key user journeys that matter most to your customers and business.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="material-icons feature-icon">speed</span>
+                    <h3>SLOs</h3>
+                    <p>Define Service Level Objectives that measure reliability from your users' perspective.</p>
+                </div>
+            </div>
+
+            <div class="workflow-section">
+                <h3>How It All Works Together</h3>
+                <div class="workflow-diagram">
+                    <div class="workflow-step">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Create Teams</h4>
+                            <p>Start by organizing your company into teams that own various services.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-step">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Define Services</h4>
+                            <p>Add the services that your teams own and maintain.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-step">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Identify CUJs</h4>
+                            <p>Define the critical user journeys that represent how users interact with your services.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-step">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Create SLOs</h4>
+                            <p>Establish SLOs that measure the reliability of your services from your users' perspective.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="approval-workflow">
+                <h3>Approval Workflow</h3>
+                <div class="workflow-diagram">
+                    <div class="workflow-step">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Draft</h4>
+                            <p>Initial creation of CUJs and SLOs starts in draft status.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-step">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Ready for Review</h4>
+                            <p>When a CUJ or SLO is ready to be reviewed, its status is changed to "Ready for Review".</p>
+                        </div>
+                    </div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-step">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Approved</h4>
+                            <p>After review, CUJs and SLOs can be approved, making them official.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="documentation-link">
+                <p>For more detailed information about how to use Corgi SLO Manager, please check our <a href="#documentation">Documentation</a>.</p>
+            </div>
+        </section>
+    </template>
+
+    <template id="dashboard-template">
+        <section class="dashboard-view">
+            <header class="section-header">
+                <h2>Dashboard</h2>
+                <div class="controls">
+                    <div class="team-filter">
+                        <label for="teamFilter">Team:</label>
+                        <select id="teamFilter">
+                            <option value="all" selected>All Teams</option>
+                            <!-- Team options will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="date-filter">
+                        <label for="timeRange">Time Range:</label>
+                        <select id="timeRange">
+                            <option>Last 7 days</option>
+                            <option selected>Last 30 days</option>
+                            <option>Last 90 days</option>
+                            <option>All time</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <!-- Row 1: Primary KPIs -->
+                <div class="stats-card">
+                    <h3>Total SLOs</h3>
+                    <div class="stat-value" id="active-slos-value">-</div>
+                    <div class="trend neutral" id="active-slos-trend">Loading...</div>
+                </div>
+                <div class="stats-card">
+                    <h3>Total CUJs</h3>
+                    <div class="stat-value" id="total-cujs-value">-</div>
+                    <div class="trend neutral" id="total-cujs-trend">Loading...</div>
+                </div>
+                <div class="stats-card">
+                    <h3>Teams with SLOs</h3>
+                    <div class="stat-value" id="teams-with-slos-value">-</div>
+                    <div class="trend neutral" id="teams-with-slos-trend">Loading...</div>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Row 2: Secondary KPIs -->
+                <div class="stats-card">
+                    <h3>SLO Coverage</h3>
+                    <div class="stat-value" id="slo-coverage-value">-</div>
+                    <div class="trend neutral" id="slo-coverage-trend">Loading...</div>
+                </div>
+                <div class="stats-card">
+                    <h3>CUJs per Team</h3>
+                    <div class="stat-value" id="cujs-per-team-value">-</div>
+                    <div class="trend neutral" id="cujs-per-team-trend">Loading...</div>
+                </div>
+                <div class="stats-card">
+                    <h3>SLOs per Service</h3>
+                    <div class="stat-value" id="slos-per-service-value">-</div>
+                    <div class="trend neutral" id="slos-per-service-trend">Loading...</div>
+                </div>
+            </div>
+
+            <div class="team-performance-section">
+                <h3>Team SLO Adoption</h3>
+                <div id="team-performance-container">
+                    <div class="empty-state">
+                        <div class="empty-state-content">
+                            <span class="material-icons">insights</span>
+                            <p>Loading team data...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- JS Scripts -->
+    <script src="js/core/database.js?v=20250402_2225"></script>
+    <script src="js/core/state.js?v=20250402_2225"></script>
+    <script src="js/core/ui.js?v=20250402_2225"></script>
+    <script src="js/core/auth.js?v=20250402_2225"></script>
+    <script src="js/core/router.js?v=20250402_2225"></script>
+    <script src="js/core/logger.js?v=20250402_2225"></script>
+    <script src="js/core/debug.js?v=20250402_2225"></script>
+    
+    <!-- Feature Modules -->
+    <script src="js/features/home.js?v=20250402_2225"></script>
+    <script src="js/features/dashboard.js?v=20250402_2225_nocache_force_reload_exact_match_<?=Math.random()?><?=Date.now()?>"></script>
+    <script src="js/features/teams.js?v=20250402_2225"></script>
+    <script src="js/features/cujs.js?v=20250402_2225"></script>
+    <script src="js/features/services.js?v=20250402_2225"></script>
+    <script src="js/features/slos.js?v=20250402_2225"></script>
+    <script src="js/features/tools.js?v=20250402_2225"></script>
+    <script src="js/features/settings.js?v=20250402_2225"></script>
+    <script src="js/features/documentation.js?v=20250402_2225"></script>
+    
+    <!-- Main App -->
+    <script src="js/app.js?v=20250402_2225"></script>
+</body>
+</html> 

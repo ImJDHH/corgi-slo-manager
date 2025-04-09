@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CorgiSLO Database Test</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        pre {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow: auto;
+        }
+        button {
+            margin-right: 10px;
+            padding: 8px 16px;
+            background-color: #4a86e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2a5db0;
+        }
+        .output {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 20px;
+            min-height: 200px;
+            max-height: 500px;
+            overflow: auto;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .clear-btn {
+            background-color: #e74c3c;
+        }
+        .clear-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <h1>Database Direct Testing</h1>
+    
+    <div>
+        <button id="init-db">Initialize DB</button>
+        <button id="test-create-team">Create Test Team</button>
+        <button id="test-create-service">Create Test Service</button>
+        <button id="get-all-teams">Get All Teams</button>
+        <button id="get-all-services">Get All Services</button>
+        <button class="clear-btn" id="clear-teams">Clear Teams</button>
+        <button class="clear-btn" id="clear-services">Clear Services</button>
+    </div>
+    
+    <div class="output" id="output"></div>
+    
+    <script>
+        // Simple database implementation for direct testing
+        const TestDB = {
+            db: null,
+            STORES: {
+                TEAMS: 'teams',
+                SERVICES: 'services'
+            },
+            
+            log(message, type = 'info') {
+                const output = document.getElementById('output');
+                const entry = document.createElement('div');
+                entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                if (type !== 'info') entry.classList.add(type);
+                output.appendChild(entry);
+                output.scrollTop = output.scrollHeight;
+            },
+            
+            async init() {
+                try {
+                    this.log('Initializing database...');
+                    const request = indexedDB.open('TestCorgiSLO', 1);
+                    
+                    request.onupgradeneeded = (event) => {
+                        const db = event.target.result;
+                        
+                        // Create Teams store
+                        if (!db.objectStoreNames.contains(this.STORES.TEAMS)) {
+                            const teamStore = db.createObjectStore(this.STORES.TEAMS, { keyPath: 'teamUID' });
+                            teamStore.createIndex('name', 'name', { unique: true });
+                        }
+                        
+                        // Create Services store
+                        if (!db.objectStoreNames.contains(this.STORES.SERVICES)) {
+                            const serviceStore = db.createObjectStore(this.STORES.SERVICES, { keyPath: 'serviceUID' });
+                            serviceStore.createIndex('name', 'name', { unique: true });
+                            serviceStore.createIndex('teamUID', 'teamUID', { unique: false });
+                        }
+                    };
+                    
+                    return new Promise((resolve, reject) => {
+                        request.onsuccess = (event) => {
+                            this.db = event.target.result;
+                            this.log('Database initialized successfully', 'success');
+                            resolve(this.db);
+                        };
+                        
+                        request.onerror = (event) => {
+                            this.log(`Database error: ${event.target.error}`, 'error');
+                            reject(event.target.error);
+                        };
+                    });
+                } catch (error) {
+                    this.log(`Database initialization error: ${error.message}`, 'error');
+                    throw error;
+                }
+            },
+            
+            async create(storeName, data) {
+                if (!this.db) await this.init();
+                
+                return new Promise((resolve, reject) => {
+                    try {
+                        const transaction = this.db.transaction([storeName], 'readwrite');
+                        const store = transaction.objectStore(storeName);
+                        
+                        this.log(`Creating ${storeName} record: ${JSON.stringify(data)}`);
+                        const request = store.add(data);
+                        
+                        request.onsuccess = () => {
+                            this.log(`Successfully created ${storeName} record`, 'success');
+                            resolve(data);
+                        };
+                        
+                        request.onerror = (event) => {
+                            this.log(`Error creating ${storeName} record: ${event.target.error}`, 'error');
+                            reject(event.target.error);
+                        };
+                    } catch (error) {
+                        this.log(`Exception in create: ${error.message}`, 'error');
+                        reject(error);
+                    }
+                });
+            },
+            
+            async getAll(storeName) {
+                if (!this.db) await this.init();
+                
+                return new Promise((resolve, reject) => {
+                    try {
+                        const transaction = this.db.transaction([storeName], 'readonly');
+                        const store = transaction.objectStore(storeName);
+                        
+                        this.log(`Getting all ${storeName} records`);
+                        const request = store.getAll();
+                        
+                        request.onsuccess = () => {
+                            this.log(`Retrieved ${request.result.length} ${storeName} records`, 'success');
+                            resolve(request.result);
+                        };
+                        
+                        request.onerror = (event) => {
+                            this.log(`Error getting ${storeName} records: ${event.target.error}`, 'error');
+                            reject(event.target.error);
+                        };
+                    } catch (error) {
+                        this.log(`Exception in getAll: ${error.message}`, 'error');
+                        reject(error);
+                    }
+                });
+            },
+            
+            async clearStore(storeName) {
+                if (!this.db) await this.init();
+                
+                return new Promise((resolve, reject) => {
+                    try {
+                        const transaction = this.db.transaction([storeName], 'readwrite');
+                        const store = transaction.objectStore(storeName);
+                        
+                        this.log(`Clearing ${storeName} store`);
+                        const request = store.clear();
+                        
+                        request.onsuccess = () => {
+                            this.log(`Successfully cleared ${storeName} store`, 'success');
+                            resolve();
+                        };
+                        
+                        request.onerror = (event) => {
+                            this.log(`Error clearing ${storeName} store: ${event.target.error}`, 'error');
+                            reject(event.target.error);
+                        };
+                    } catch (error) {
+                        this.log(`Exception in clearStore: ${error.message}`, 'error');
+                        reject(error);
+                    }
+                });
+            },
+            
+            generateUID(prefix) {
+                return `${prefix}-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+            }
+        };
+        
+        // Set up event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize database
+            document.getElementById('init-db').addEventListener('click', async () => {
+                try {
+                    await TestDB.init();
+                } catch (error) {
+                    console.error('Failed to initialize database:', error);
+                }
+            });
+            
+            // Create test team
+            document.getElementById('test-create-team').addEventListener('click', async () => {
+                try {
+                    const team = {
+                        teamUID: TestDB.generateUID('team'),
+                        name: `Test Team ${Date.now()}`,
+                        description: 'A test team created for database testing',
+                        email: 'test@example.com',
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    await TestDB.create(TestDB.STORES.TEAMS, team);
+                } catch (error) {
+                    console.error('Failed to create test team:', error);
+                }
+            });
+            
+            // Create test service
+            document.getElementById('test-create-service').addEventListener('click', async () => {
+                try {
+                    // First get a team to link to
+                    const teams = await TestDB.getAll(TestDB.STORES.TEAMS);
+                    const teamUID = teams.length > 0 ? teams[0].teamUID : TestDB.generateUID('team');
+                    
+                    const service = {
+                        serviceUID: TestDB.generateUID('service'),
+                        name: `Test Service ${Date.now()}`,
+                        description: 'A test service created for database testing',
+                        teamUID: teamUID,
+                        endpoints: ['api/test'],
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    await TestDB.create(TestDB.STORES.SERVICES, service);
+                } catch (error) {
+                    console.error('Failed to create test service:', error);
+                }
+            });
+            
+            // Get all teams
+            document.getElementById('get-all-teams').addEventListener('click', async () => {
+                try {
+                    const teams = await TestDB.getAll(TestDB.STORES.TEAMS);
+                    TestDB.log(`Teams: ${JSON.stringify(teams, null, 2)}`);
+                } catch (error) {
+                    console.error('Failed to get teams:', error);
+                }
+            });
+            
+            // Get all services
+            document.getElementById('get-all-services').addEventListener('click', async () => {
+                try {
+                    const services = await TestDB.getAll(TestDB.STORES.SERVICES);
+                    TestDB.log(`Services: ${JSON.stringify(services, null, 2)}`);
+                } catch (error) {
+                    console.error('Failed to get services:', error);
+                }
+            });
+            
+            // Clear teams
+            document.getElementById('clear-teams').addEventListener('click', async () => {
+                try {
+                    await TestDB.clearStore(TestDB.STORES.TEAMS);
+                } catch (error) {
+                    console.error('Failed to clear teams:', error);
+                }
+            });
+            
+            // Clear services
+            document.getElementById('clear-services').addEventListener('click', async () => {
+                try {
+                    await TestDB.clearStore(TestDB.STORES.SERVICES);
+                } catch (error) {
+                    console.error('Failed to clear services:', error);
+                }
+            });
+            
+            // Initialize the database on page load
+            TestDB.init().catch(console.error);
+        });
+    </script>
+</body>
+</html> 

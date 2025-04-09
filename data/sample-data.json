@@ -1,0 +1,589 @@
+{
+  "teams": [
+    {
+      "teamUID": "team-1681234567-1234",
+      "name": "Platform Engineering",
+      "description": "Responsible for the core platform infrastructure",
+      "email": "platform@example.com",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "teamUID": "team-1681234568-5678",
+      "name": "Security Engineering",
+      "description": "Security scanning and vulnerability management",
+      "email": "security@example.com",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "teamUID": "team-1681234569-9012",
+      "name": "Frontend Team",
+      "description": "Web UI and customer-facing interfaces",
+      "email": "frontend@example.com",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "teamUID": "team-1681234570-3456",
+      "name": "DevOps Team",
+      "description": "CI/CD and deployment automation",
+      "email": "devops@example.com",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "teamUID": "team-1681234571-7890",
+      "name": "Database Team",
+      "description": "Database management and optimization",
+      "email": "database@example.com",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    }
+  ],
+  "services": [
+    {
+      "serviceUID": "service-1681234567-1234",
+      "name": "Artifactory Repository",
+      "description": "Artifact storage and management",
+      "owner": "John Smith",
+      "teamUID": "team-1681234567-1234",
+      "status": "active",
+      "tier": "1",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "serviceUID": "service-1681234568-5678",
+      "name": "Xray Scanner",
+      "description": "Security vulnerability scanning",
+      "owner": "Jane Doe",
+      "teamUID": "team-1681234568-5678",
+      "status": "active",
+      "tier": "1",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "serviceUID": "service-1681234569-9012",
+      "name": "Distribution Service",
+      "description": "Artifact distribution to remote repositories",
+      "owner": "John Smith",
+      "teamUID": "team-1681234567-1234",
+      "status": "active",
+      "tier": "2",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "serviceUID": "service-1681234570-3456",
+      "name": "NGINX HTTP Server",
+      "description": "Web server for frontend applications",
+      "owner": "Sarah Johnson",
+      "teamUID": "team-1681234569-9012",
+      "status": "active",
+      "tier": "1",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "serviceUID": "service-1681234571-7890",
+      "name": "NGINX Load Balancer",
+      "description": "Load balancer for distributing traffic",
+      "owner": "Michael Brown",
+      "teamUID": "team-1681234567-1234",
+      "status": "active",
+      "tier": "1",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "serviceUID": "service-1681234572-2345",
+      "name": "API Gateway",
+      "description": "API routing and authentication",
+      "owner": "Emily Davis",
+      "teamUID": "team-1681234567-1234",
+      "status": "active",
+      "tier": "2",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "serviceUID": "service-1681234573-6789",
+      "name": "Pipeline Integration",
+      "description": "CI/CD pipeline service",
+      "owner": "Alex Wilson",
+      "teamUID": "team-1681234570-3456",
+      "status": "active",
+      "tier": "2",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "serviceUID": "service-1681234574-0123",
+      "name": "Container Registry",
+      "description": "Docker container registry",
+      "owner": "James Miller",
+      "teamUID": "team-1681234567-1234",
+      "status": "active",
+      "tier": "2",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "serviceUID": "service-1681234575-4567",
+      "name": "Access Federation",
+      "description": "Identity and access management",
+      "owner": "Lisa Lee",
+      "teamUID": "team-1681234568-5678",
+      "status": "active",
+      "tier": "1",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "serviceUID": "service-1681234576-8901",
+      "name": "NGINX App Protect",
+      "description": "Web application firewall",
+      "owner": "David Wilson",
+      "teamUID": "team-1681234568-5678",
+      "status": "active",
+      "tier": "1",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    }
+  ],
+  "cujs": [
+    {
+      "cujUID": "cuj-1681234567-1234",
+      "name": "Artifact Upload",
+      "description": "Users upload artifacts to the repository",
+      "serviceUID": "service-1681234567-1234",
+      "status": "approved",
+      "owner": "John Smith",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "cujUID": "cuj-1681234568-5678",
+      "name": "Artifact Download",
+      "description": "Users download artifacts from the repository",
+      "serviceUID": "service-1681234567-1234",
+      "status": "draft",
+      "owner": "John Smith",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "cujUID": "cuj-1681234569-9012",
+      "name": "Security Scan",
+      "description": "Security scanning of artifacts",
+      "serviceUID": "service-1681234568-5678",
+      "status": "ready-for-review",
+      "owner": "Jane Doe",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "cujUID": "cuj-1681234570-3456",
+      "name": "Artifact Distribution",
+      "description": "Distribution of artifacts to remote repositories",
+      "serviceUID": "service-1681234569-9012",
+      "status": "denied",
+      "owner": "John Smith",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "cujUID": "cuj-1681234571-7890",
+      "name": "HTTP Request",
+      "description": "Web server request handling",
+      "serviceUID": "service-1681234570-3456",
+      "status": "experimental",
+      "owner": "Sarah Johnson",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "cujUID": "cuj-1681234572-2345",
+      "name": "Load Balancing",
+      "description": "Distribution of traffic across servers",
+      "serviceUID": "service-1681234571-7890",
+      "status": "approved",
+      "owner": "Michael Brown",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "cujUID": "cuj-1681234573-6789",
+      "name": "API Request",
+      "description": "API gateway request handling",
+      "serviceUID": "service-1681234572-2345",
+      "status": "inactive",
+      "owner": "Emily Davis",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "cujUID": "cuj-1681234574-0123",
+      "name": "Pipeline Build",
+      "description": "CI/CD pipeline build process",
+      "serviceUID": "service-1681234573-6789",
+      "status": "active",
+      "owner": "Alex Wilson",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "cujUID": "cuj-1681234575-4567",
+      "name": "Container Push",
+      "description": "Pushing containers to registry",
+      "serviceUID": "service-1681234574-0123",
+      "status": "active",
+      "owner": "James Miller",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "cujUID": "cuj-1681234576-8901",
+      "name": "Identity Service",
+      "description": "Authentication and authorization",
+      "serviceUID": "service-1681234575-4567",
+      "status": "active",
+      "owner": "Lisa Lee",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "cujUID": "cuj-1681234577-2345",
+      "name": "WAF Protection",
+      "description": "Web application firewall protection",
+      "serviceUID": "service-1681234576-8901",
+      "status": "active",
+      "owner": "David Wilson",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    }
+  ],
+  "slos": [
+    {
+      "name": "Artifact Upload Performance",
+      "description": "95% of artifact uploads complete in under 2 seconds",
+      "serviceUID": "service-1681234567-1234",
+      "serviceName": "Artifactory Repository",
+      "cujUID": "cuj-1681234567-1234",
+      "sliName": "Artifact Upload Time",
+      "sliDescription": "Measures the time it takes to upload artifacts to the repository",
+      "target": 0.95,
+      "window": "7d",
+      "threshold": 2,
+      "status": "approved",
+      "authors": ["John Smith"],
+      "createdAt": "2023-04-10T12:34:56.789Z",
+      "modifiedAt": "2023-04-10T12:34:56.789Z",
+      "modifiedBy": "John Smith",
+      "history": [
+        {
+          "action": "created",
+          "timestamp": "2023-04-10T12:34:56.789Z",
+          "user": "John Smith",
+          "details": "SLO created"
+        }
+      ]
+    },
+    {
+      "name": "Repository Uptime",
+      "description": "Repository available 99.9% of the time",
+      "serviceUID": "service-1681234567-1234",
+      "serviceName": "Artifactory Repository",
+      "cujUID": "cuj-1681234568-5678",
+      "sliName": "Repository Availability",
+      "sliDescription": "Measures the availability of the repository service",
+      "target": 0.999,
+      "window": "30d",
+      "status": "approved",
+      "authors": ["John Smith"],
+      "createdAt": "2023-04-10T12:34:56.789Z",
+      "modifiedAt": "2023-04-10T12:34:56.789Z",
+      "modifiedBy": "John Smith",
+      "history": [
+        {
+          "action": "created",
+          "timestamp": "2023-04-10T12:34:56.789Z",
+          "user": "John Smith",
+          "details": "SLO created"
+        }
+      ]
+    },
+    {
+      "name": "Security Scan Reliability",
+      "description": "99% of security scans complete successfully",
+      "serviceUID": "service-1681234568-5678",
+      "serviceName": "Xray Scanner",
+      "cujUID": "cuj-1681234569-9012",
+      "sliName": "Scan Completion Rate",
+      "sliDescription": "Measures the percentage of security scans that complete successfully",
+      "target": 0.99,
+      "window": "7d",
+      "status": "draft",
+      "authors": ["Jane Doe"],
+      "createdAt": "2023-04-10T12:34:56.789Z",
+      "modifiedAt": "2023-04-10T12:34:56.789Z",
+      "modifiedBy": "Jane Doe",
+      "history": [
+        {
+          "action": "created",
+          "timestamp": "2023-04-10T12:34:56.789Z",
+          "user": "Jane Doe",
+          "details": "SLO created"
+        }
+      ]
+    },
+    {
+      "name": "Security Scan Speed",
+      "description": "95% of security scans complete in under 5 minutes",
+      "serviceUID": "service-1681234568-5678",
+      "serviceName": "Xray Scanner",
+      "cujUID": "cuj-1681234569-9012",
+      "sliName": "Scan Duration",
+      "sliDescription": "Measures the time it takes to complete a security scan",
+      "target": 0.95,
+      "window": "7d",
+      "threshold": 300,
+      "status": "pending",
+      "authors": ["Jane Doe"],
+      "createdAt": "2023-04-10T12:34:56.789Z",
+      "modifiedAt": "2023-04-10T12:34:56.789Z",
+      "modifiedBy": "Jane Doe",
+      "history": [
+        {
+          "action": "created",
+          "timestamp": "2023-04-10T12:34:56.789Z",
+          "user": "Jane Doe",
+          "details": "SLO created"
+        }
+      ]
+    },
+    {
+      "name": "Release Distribution Success",
+      "description": "99.5% of release distributions complete successfully",
+      "serviceUID": "service-1681234569-9012",
+      "serviceName": "Distribution Service",
+      "cujUID": "cuj-1681234570-3456",
+      "sliName": "Distribution Success Rate",
+      "sliDescription": "Measures the percentage of artifact distributions that complete successfully",
+      "target": 0.995,
+      "window": "30d",
+      "status": "experimental",
+      "authors": ["John Smith"],
+      "createdAt": "2023-04-10T12:34:56.789Z",
+      "modifiedAt": "2023-04-10T12:34:56.789Z",
+      "modifiedBy": "John Smith",
+      "history": [
+        {
+          "action": "created",
+          "timestamp": "2023-04-10T12:34:56.789Z",
+          "user": "John Smith",
+          "details": "SLO created"
+        }
+      ]
+    },
+    {
+      "name": "HTTP Server Success Rate",
+      "description": "99.9% of HTTP requests return successful responses",
+      "serviceUID": "service-1681234570-3456",
+      "serviceName": "NGINX HTTP Server",
+      "cujUID": "cuj-1681234571-7890",
+      "sliName": "HTTP Success Rate",
+      "sliDescription": "Measures the percentage of HTTP requests that return a successful response",
+      "target": 0.999,
+      "window": "30d",
+      "status": "inactive",
+      "authors": ["Sarah Johnson"],
+      "createdAt": "2023-04-10T12:34:56.789Z",
+      "modifiedAt": "2023-04-10T12:34:56.789Z",
+      "modifiedBy": "Sarah Johnson",
+      "history": [
+        {
+          "action": "created",
+          "timestamp": "2023-04-10T12:34:56.789Z",
+          "user": "Sarah Johnson",
+          "details": "SLO created"
+        }
+      ]
+    },
+    {
+      "name": "HTTP Request Latency",
+      "description": "95% of HTTP requests complete in under 200ms",
+      "serviceUID": "service-1681234570-3456",
+      "serviceName": "NGINX HTTP Server",
+      "cujUID": "cuj-1681234571-7890",
+      "sliName": "HTTP Latency",
+      "sliDescription": "Measures the time it takes to process HTTP requests",
+      "target": 0.95,
+      "window": "7d",
+      "threshold": 0.2,
+      "status": "approved",
+      "authors": ["Sarah Johnson"],
+      "createdAt": "2023-04-10T12:34:56.789Z",
+      "modifiedAt": "2023-04-10T12:34:56.789Z",
+      "modifiedBy": "Sarah Johnson",
+      "history": [
+        {
+          "action": "created",
+          "timestamp": "2023-04-10T12:34:56.789Z",
+          "user": "Sarah Johnson",
+          "details": "SLO created"
+        }
+      ]
+    },
+    {
+      "name": "Load Balancer Availability",
+      "description": "99.99% availability of load balancer upstreams",
+      "serviceUID": "service-1681234571-7890",
+      "serviceName": "NGINX Load Balancer",
+      "cujUID": "cuj-1681234572-2345",
+      "sliName": "Load Balancer Health",
+      "sliDescription": "Measures the availability of the load balancer upstreams",
+      "target": 0.9999,
+      "window": "30d",
+      "status": "draft",
+      "authors": ["Michael Brown"],
+      "createdAt": "2023-04-10T12:34:56.789Z",
+      "modifiedAt": "2023-04-10T12:34:56.789Z",
+      "modifiedBy": "Michael Brown",
+      "history": [
+        {
+          "action": "created",
+          "timestamp": "2023-04-10T12:34:56.789Z",
+          "user": "Michael Brown",
+          "details": "SLO created"
+        }
+      ]
+    },
+    {
+      "name": "API Gateway Success",
+      "description": "99.5% of API gateway requests succeed",
+      "serviceUID": "service-1681234572-2345",
+      "serviceName": "API Gateway",
+      "cujUID": "cuj-1681234573-6789",
+      "sliName": "Gateway Request Success",
+      "sliDescription": "Measures the percentage of API gateway requests that succeed",
+      "target": 0.995,
+      "window": "7d",
+      "status": "pending",
+      "authors": ["Emily Davis"],
+      "createdAt": "2023-04-10T12:34:56.789Z",
+      "modifiedAt": "2023-04-10T12:34:56.789Z",
+      "modifiedBy": "Emily Davis",
+      "history": [
+        {
+          "action": "created",
+          "timestamp": "2023-04-10T12:34:56.789Z",
+          "user": "Emily Davis",
+          "details": "SLO created"
+        }
+      ]
+    },
+    {
+      "name": "Pipeline Build Reliability",
+      "description": "98% of pipeline builds complete successfully",
+      "serviceUID": "service-1681234573-6789",
+      "serviceName": "Pipeline Integration",
+      "cujUID": "cuj-1681234574-0123",
+      "sliName": "Pipeline Build Success",
+      "sliDescription": "Measures the percentage of pipeline builds that complete successfully",
+      "target": 0.98,
+      "window": "7d",
+      "status": "experimental",
+      "authors": ["Alex Wilson"],
+      "createdAt": "2023-04-10T12:34:56.789Z",
+      "modifiedAt": "2023-04-10T12:34:56.789Z",
+      "modifiedBy": "Alex Wilson",
+      "history": [
+        {
+          "action": "created",
+          "timestamp": "2023-04-10T12:34:56.789Z",
+          "user": "Alex Wilson",
+          "details": "SLO created"
+        }
+      ]
+    },
+    {
+      "name": "Container Push Reliability",
+      "description": "99% of container image pushes succeed",
+      "serviceUID": "service-1681234574-0123",
+      "serviceName": "Container Registry",
+      "cujUID": "cuj-1681234575-4567",
+      "sliName": "Registry Push Success",
+      "sliDescription": "Measures the percentage of container image pushes that succeed",
+      "target": 0.99,
+      "window": "7d",
+      "status": "inactive",
+      "authors": ["James Miller"],
+      "createdAt": "2023-04-10T12:34:56.789Z",
+      "modifiedAt": "2023-04-10T12:34:56.789Z",
+      "modifiedBy": "James Miller",
+      "history": [
+        {
+          "action": "created",
+          "timestamp": "2023-04-10T12:34:56.789Z",
+          "user": "James Miller",
+          "details": "SLO created"
+        }
+      ]
+    },
+    {
+      "name": "Identity Service Reliability",
+      "description": "99.95% uptime for identity service",
+      "serviceUID": "service-1681234575-4567",
+      "serviceName": "Access Federation",
+      "cujUID": "cuj-1681234576-8901",
+      "sliName": "Identity Service Availability",
+      "sliDescription": "Measures the availability of the identity service",
+      "target": 0.9995,
+      "window": "30d",
+      "status": "approved",
+      "authors": ["Lisa Lee"],
+      "createdAt": "2023-04-10T12:34:56.789Z",
+      "modifiedAt": "2023-04-10T12:34:56.789Z",
+      "modifiedBy": "Lisa Lee",
+      "history": [
+        {
+          "action": "created",
+          "timestamp": "2023-04-10T12:34:56.789Z",
+          "user": "Lisa Lee",
+          "details": "SLO created"
+        }
+      ]
+    },
+    {
+      "name": "WAF Protection",
+      "description": "Keep WAF block rate below 1% of total traffic",
+      "serviceUID": "service-1681234576-8901",
+      "serviceName": "NGINX App Protect",
+      "cujUID": "cuj-1681234577-2345",
+      "sliName": "WAF Block Rate",
+      "sliDescription": "Measures the percentage of requests blocked by the web application firewall",
+      "target": 0.01,
+      "window": "7d",
+      "status": "draft",
+      "authors": ["David Wilson"],
+      "createdAt": "2023-04-10T12:34:56.789Z",
+      "modifiedAt": "2023-04-10T12:34:56.789Z",
+      "modifiedBy": "David Wilson",
+      "history": [
+        {
+          "action": "created",
+          "timestamp": "2023-04-10T12:34:56.789Z",
+          "user": "David Wilson",
+          "details": "SLO created"
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "userUID": "user-1681234567-1234",
+      "email": "admin@example.com",
+      "name": "Admin User",
+      "role": "admin",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "userUID": "user-1681234568-5678",
+      "email": "john@example.com",
+      "name": "John Smith",
+      "role": "manager",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "userUID": "user-1681234569-9012",
+      "email": "jane@example.com",
+      "name": "Jane Doe",
+      "role": "manager",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    },
+    {
+      "userUID": "user-1681234570-3456",
+      "email": "viewer@example.com",
+      "name": "Viewer User",
+      "role": "viewer",
+      "createdAt": "2023-04-10T12:34:56.789Z"
+    }
+  ]
+} 

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corgi SLO Manager Tests</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <style>
+        /* Test-specific styles */
+        .test-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .test-section h2 {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .test-result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .test-result.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .test-result.failure {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .test-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        #console-output {
+            height: 300px;
+            overflow-y: auto;
+            background-color: #1e1e1e;
+            color: #ddd;
+            font-family: monospace;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        
+        #console-output p {
+            margin: 2px 0;
+        }
+        
+        #console-output .success {
+            color: #4caf50;
+        }
+        
+        #console-output .error {
+            color: #f44336;
+        }
+        
+        #console-output .info {
+            color: #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="assets/logo.svg" alt="Corgi SLO Manager" height="40">
+        </div>
+        <h1>Corgi SLO Manager Tests</h1>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="test-section">
+                <h2>Test Suites</h2>
+                <div class="test-controls">
+                    <button id="run-all-tests" class="btn btn-primary">Run All Tests</button>
+                    <button id="run-database-tests" class="btn btn-secondary">Run Database Tests</button>
+                    <button id="run-ui-tests" class="btn btn-secondary">Run UI Tests</button>
+                    <button id="run-button-tests" class="btn btn-secondary">Run Button Tests</button>
+                    <button id="clear-console" class="btn btn-danger">Clear Console</button>
+                </div>
+                <div id="test-summary">
+                    <!-- Test results will be shown here -->
+                </div>
+            </div>
+            
+            <div id="console-output">
+                <!-- Console output will be displayed here -->
+                <p class="info">Test console ready. Click a button above to run tests.</p>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 Corgi SLO Manager</p>
+    </footer>
+    
+    <!-- Core Modules -->
+    <script src="js/core/utils.js"></script>
+    <script src="js/core/database.js"></script>
+    <script src="js/core/auth.js"></script>
+    <script src="js/core/router.js"></script>
+    <script src="js/core/state.js"></script>
+    <script src="js/core/ui.js"></script>
+    <script src="js/core/api.js"></script>
+    
+    <!-- Feature Modules -->
+    <script src="js/features/dashboard.js"></script>
+    <script src="js/features/tools.js"></script>
+    <script src="js/features/teams.js"></script>
+    <script src="js/features/services.js"></script>
+    <script src="js/features/cujs.js"></script>
+    <script src="js/features/slis.js"></script>
+    <script src="js/features/slos.js"></script>
+    
+    <!-- Modal and Dialog Blocking for Tests -->
+    <script>
+        // Instead of immediately executing, create a function that can be called when tests run
+        function setupTestEnvironment() {
+            console.log('Setting up test environment...');
+            
+            // Set global flag to indicate tests are running
+            window._isTestRunning = true;
+            
+            // Store original functions to restore later
+            window._originalUIFunctions = {
+                createModal: UI.createModal,
+                showModal: UI.showModal,
+                hideModal: UI.hideModal,
+                showToast: UI.showToast
+            };
+            
+            window._originalDOMFunctions = {
+                createElement: document.createElement,
+                appendChild: Element.prototype.appendChild,
+                click: HTMLElement.prototype.click
+            };
+            
+            // Mock UI functions only during tests
+            UI.createModal = function(title, content, buttons) {
+                console.log(`[TEST] UI.createModal: ${title}`);
+                const dummy = document.createElement('div');
+                dummy.className = 'mock-modal';
+                dummy.setAttribute('aria-hidden', 'true');
+                dummy.style.display = 'none';
+                return dummy;
+            };
+            
+            UI.showModal = function(modal) {
+                console.log('[TEST] UI.showModal');
+                return modal;
+            };
+            
+            UI.hideModal = function(modal) {
+                console.log('[TEST] UI.hideModal');
+            };
+            
+            console.log('Test environment setup complete');
+        }
+        
+        // Function to restore original behavior
+        function teardownTestEnvironment() {
+            console.log('Restoring normal environment...');
+            
+            // Clear the test running flag
+            window._isTestRunning = false;
+            
+            // Restore original UI functions
+            if (window._originalUIFunctions) {
+                UI.createModal = window._originalUIFunctions.createModal;
+                UI.showModal = window._originalUIFunctions.showModal;
+                UI.hideModal = window._originalUIFunctions.hideModal;
+                UI.showToast = window._originalUIFunctions.showToast;
+            }
+            
+            // Restore original DOM functions
+            if (window._originalDOMFunctions) {
+                document.createElement = window._originalDOMFunctions.createElement;
+                Element.prototype.appendChild = window._originalDOMFunctions.appendChild;
+                HTMLElement.prototype.click = window._originalDOMFunctions.click;
+            }
+            
+            console.log('Normal environment restored');
+        }
+    </script>
+    
+    <!-- Test Modules -->
+    <script src="js/tests/database.test.js"></script>
+    <script src="js/tests/ui.test.js"></script>
+    <script src="js/tests/buttons.test.js"></script>
+    <script src="js/tests/tools.test.js"></script>
+    
+    <script>
+        // Console interceptor to display console output in the UI
+        (function() {
+            const consoleOutput = document.getElementById('console-output');
+            const originalConsoleLog = console.log;
+            const originalConsoleError = console.error;
+            const originalConsoleInfo = console.info;
+            
+            console.log = function(...args) {
+                originalConsoleLog.apply(console, args);
+                const message = document.createElement('p');
+                message.textContent = args.join(' ');
+                consoleOutput.appendChild(message);
+                consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            };
+            
+            console.error = function(...args) {
+                originalConsoleError.apply(console, args);
+                const message = document.createElement('p');
+                message.classList.add('error');
+                message.textContent = args.join(' ');
+                consoleOutput.appendChild(message);
+                consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            };
+            
+            console.info = function(...args) {
+                originalConsoleInfo.apply(console, args);
+                const message = document.createElement('p');
+                message.classList.add('info');
+                message.textContent = args.join(' ');
+                consoleOutput.appendChild(message);
+                consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            };
+            
+            // Disable alerts during tests
+            window.alert = function(message) {
+                console.log(`[Alert suppressed]: ${message}`);
+            };
+            
+            // Disable confirm dialogs during tests
+            window.confirm = function(message) {
+                console.log(`[Confirm suppressed]: ${message}`);
+                return true; // Always return true in tests
+            };
+            
+            // Disable prompt dialogs during tests
+            window.prompt = function(message, defaultValue) {
+                console.log(`[Prompt suppressed]: ${message}, default: ${defaultValue}`);
+                return defaultValue; // Return the default value in tests
+            };
+        })();
+        
+        // Test controls
+        document.getElementById('run-all-tests').addEventListener('click', setupTestEnvironment);
+        document.getElementById('run-database-tests').addEventListener('click', setupTestEnvironment);
+        document.getElementById('run-ui-tests').addEventListener('click', setupTestEnvironment);
+        document.getElementById('run-button-tests').addEventListener('click', setupTestEnvironment);
+        
+        document.getElementById('clear-console').addEventListener('click', () => {
+            document.getElementById('console-output').innerHTML = '';
+            document.getElementById('test-summary').innerHTML = '';
+        });
+        
+        // Test runners
+        async function runAllTests() {
+            console.log('======= RUNNING ALL TESTS =======');
+            const databaseResults = await runDatabaseTests();
+            const uiResults = await runUITests();
+            const buttonResults = await runButtonTests();
+            
+            // Display combined results
+            const totalPassed = databaseResults.passed + uiResults.passed + buttonResults.passed;
+            const totalFailed = databaseResults.failed + uiResults.failed + buttonResults.failed;
+            const totalTests = databaseResults.total + uiResults.total + buttonResults.total;
+            
+            const summary = document.getElementById('test-summary');
+            summary.innerHTML = '';
+            
+            const resultElement = document.createElement('div');
+            resultElement.className = totalFailed === 0 ? 'test-result success' : 'test-result failure';
+            resultElement.innerHTML = `
+                <h3>All Tests Summary</h3>
+                <p>Passed: ${totalPassed}/${totalTests} (${Math.round(totalPassed/totalTests*100)}%)</p>
+                <p>Failed: ${totalFailed}</p>
+            `;
+            summary.appendChild(resultElement);
+            
+            console.log(`======= ALL TESTS COMPLETED: ${totalPassed}/${totalTests} PASSED =======`);
+            
+            return { passed: totalPassed, failed: totalFailed, total: totalTests };
+        }
+        
+        async function runDatabaseTests() {
+            console.log('======= RUNNING DATABASE TESTS =======');
+            
+            // Initialize core modules if needed
+            if (typeof Database === 'undefined') {
+                console.error('Database module not loaded!');
+                return { passed: 0, failed: 1, total: 1 };
+            }
+            
+            try {
+                // Run database tests
+                const results = await window.TestRunner.runTests();
+                
+                // Display results
+                const summary = document.getElementById('test-summary');
+                summary.innerHTML = '';
+                
+                const resultElement = document.createElement('div');
+                resultElement.className = results.failed === 0 ? 'test-result success' : 'test-result failure';
+                resultElement.innerHTML = `
+                    <h3>Database Tests Summary</h3>
+                    <p>Passed: ${results.passed}/${results.total} (${Math.round(results.passed/results.total*100)}%)</p>
+                    <p>Failed: ${results.failed}</p>
+                `;
+                summary.appendChild(resultElement);
+                
+                console.log(`======= DATABASE TESTS COMPLETED: ${results.passed}/${results.total} PASSED =======`);
+                
+                return results;
+            } catch (error) {
+                console.error('Error running database tests:', error);
+                return { passed: 0, failed: 1, total: 1 };
+            }
+        }
+        
+        async function runUITests() {
+            console.log('======= RUNNING UI TESTS =======');
+            
+            // Initialize core modules if needed
+            if (typeof UI === 'undefined') {
+                console.error('UI module not loaded!');
+                return { passed: 0, failed: 1, total: 1 };
+            }
+            
+            try {
+                // Run UI tests
+                const results = await window.UITestRunner.runTests();
+                
+                // Display results
+                const summary = document.getElementById('test-summary');
+                summary.innerHTML = '';
+                
+                const resultElement = document.createElement('div');
+                resultElement.className = results.failed === 0 ? 'test-result success' : 'test-result failure';
+                resultElement.innerHTML = `
+                    <h3>UI Tests Summary</h3>
+                    <p>Passed: ${results.passed}/${results.total} (${Math.round(results.passed/results.total*100)}%)</p>
+                    <p>Failed: ${results.failed}</p>
+                `;
+                summary.appendChild(resultElement);
+                
+                console.log(`======= UI TESTS COMPLETED: ${results.passed}/${results.total} PASSED =======`);
+                
+                return results;
+            } catch (error) {
+                console.error('Error running UI tests:', error);
+                return { passed: 0, failed: 1, total: 1 };
+            }
+        }
+        
+        async function runButtonTests() {
+            console.log('======= RUNNING BUTTON TESTS =======');
+            
+            // Initialize core modules if needed
+            if (typeof UI === 'undefined') {
+                console.error('UI module not loaded!');
+                return { passed: 0, failed: 1, total: 1 };
+            }
+            
+            try {
+                // Set up test environment - apply mocks only during test execution
+                setupTestEnvironment();
+                
+                // Block modal creation and DOM manipulation during button tests
+                // This is more aggressive than the global mocks
+                const originalCreateElement = document.createElement;
+                const blockedElementTypes = ['div', 'input', 'form', 'dialog'];
+                
+                document.createElement = function(tagName) {
+                    // Handle modals and dialogs specially
+                    if (blockedElementTypes.includes(tagName.toLowerCase())) {
+                        const element = originalCreateElement.call(document, tagName);
+                        
+                        // Only apply special handling if creating a modal or dialog element
+                        // for non-test purposes
+                        if (tagName.toLowerCase() === 'div') {
+                            // Save the original classList methods
+                            const originalAdd = element.classList.add;
+                            
+                            // Override classList.add to detect modal creation
+                            element.classList.add = function(...args) {
+                                if (args.includes('modal') || args.includes('modal-overlay')) {
+                                    console.log(`[TEST] Created test-friendly ${tagName} for modal`);
+                                    
+                                    // Prevent modals from showing but allow them to be created
+                                    element.style.position = 'absolute';
+                                    element.style.left = '-9999px';
+                                    element.style.top = '-9999px';
+                                    element.setAttribute('aria-hidden', 'true');
+                                }
+                                return originalAdd.apply(this, args);
+                            };
+                        }
+                        
+                        // For test elements, don't block DOM operations
+                        if (tagName.toLowerCase() === 'div' && 
+                            (window.currentTestContainer || 
+                             document.getElementById('tools-test-container'))) {
+                            console.log(`[TEST] Created normal div for test container`);
+                            return element;
+                        }
+                        
+                        return element;
+                    }
+                    
+                    // Allow other basic elements
+                    return originalCreateElement.call(document, tagName);
+                };
+                
+                // Save the original appendChild
+                const originalAppendChild = Element.prototype.appendChild;
+                
+                // Create temporary storage for the current test container
+                window.currentTestContainer = null;
+                
+                // Override appendChild only for specific elements
+                Element.prototype.appendChild = function(element) {
+                    // Always allow test containers to be created
+                    if (element.id && (
+                        element.id === 'tools-test-container' || 
+                        element.id.includes('test-container'))) {
+                        window.currentTestContainer = element;
+                        return originalAppendChild.call(this, element);
+                    }
+                    
+                    // Always allow appending to test containers
+                    if (this.id && (
+                        this.id === 'tools-test-container' || 
+                        this.id.includes('test-container'))) {
+                        return originalAppendChild.call(this, element);
+                    }
+                    
+                    // Always allow appending to elements within test containers
+                    let parent = this;
+                    let isInTestContainer = false;
+                    while (parent) {
+                        if (parent.id && (
+                            parent.id === 'tools-test-container' || 
+                            parent.id.includes('test-container'))) {
+                            isInTestContainer = true;
+                            break;
+                        }
+                        parent = parent.parentElement;
+                    }
+                    
+                    if (isInTestContainer) {
+                        return originalAppendChild.call(this, element);
+                    }
+                    
+                    // Block real modals from being added to document body
+                    if (this === document.body && 
+                        element.classList && 
+                        (element.classList.contains('modal') || 
+                         element.classList.contains('modal-overlay'))) {
+                        console.log('[TEST] Blocked real modal appendChild to body');
+                        return element;
+                    }
+                    
+                    // Allow test-related elements
+                    if (this.id && (
+                        this.id === 'console-output' || 
+                        this.id === 'test-summary' || 
+                        this.id.includes('test'))) {
+                        return originalAppendChild.call(this, element);
+                    }
+                    
+                    // Allow most DOM operations for testing, except modals to document body
+                    return originalAppendChild.call(this, element);
+                };
+                
+                // Initialize necessary core modules
+                await Database.init();
+                
+                // Initialize feature modules if they exist
+                if (!window.teamsModule) {
+                    console.error('Teams module not loaded');
+                    return { passed: 0, failed: 1, total: 1 };
+                }
+                
+                if (!window.servicesModule) {
+                    console.error('Services module not loaded');
+                    return { passed: 0, failed: 1, total: 1 };
+                }
+                
+                if (!window.cujsModule) {
+                    console.error('CUJs module not loaded');
+                    return { passed: 0, failed: 1, total: 1 };
+                }
+                
+                if (!window.slisModule) {
+                    console.error('SLIs module not loaded');
+                    return { passed: 0, failed: 1, total: 1 };
+                }
+                
+                if (!window.slosModule) {
+                    console.error('SLOs module not loaded');
+                    return { passed: 0, failed: 1, total: 1 };
+                }
+
+                if (!window.toolsModule) {
+                    console.error('Tools module not loaded');
+                    return { passed: 0, failed: 1, total: 1 };
+                }
+                
+                console.log('All required modules loaded successfully');
+                
+                try {
+                    // Run button tests
+                    const buttonResults = await window.ButtonTestRunner.runTests();
+                    
+                    // Run tools tests
+                    const toolsResults = await window.ToolsTestRunner.runTests();
+                    
+                    // Combine results
+                    const results = {
+                        passed: buttonResults.passed + toolsResults.passed,
+                        failed: buttonResults.failed + toolsResults.failed,
+                        total: buttonResults.total + toolsResults.total
+                    };
+                    
+                    // Display results
+                    const summary = document.getElementById('test-summary');
+                    summary.innerHTML = '';
+                    
+                    const resultElement = document.createElement('div');
+                    resultElement.className = results.failed === 0 ? 'test-result success' : 'test-result failure';
+                    resultElement.innerHTML = `
+                        <h3>Button Tests Summary</h3>
+                        <p>Passed: ${results.passed}/${results.total} (${Math.round(results.passed/results.total*100)}%)</p>
+                        <p>Failed: ${results.failed}</p>
+                    `;
+                    summary.appendChild(resultElement);
+                    
+                    console.log(`======= BUTTON TESTS COMPLETED: ${results.passed}/${results.total} PASSED =======`);
+                    
+                    return results;
+                } finally {
+                    // Restore original createElement function and appendChild
+                    document.createElement = originalCreateElement;
+                    Element.prototype.appendChild = originalAppendChild;
+                    window.currentTestContainer = null;
+                }
+            } finally {
+                // Restore normal environment
+                teardownTestEnvironment();
+            }
+        }
+        
+        // Ensure environment is restored after tests
+        window.addEventListener('beforeunload', teardownTestEnvironment);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="95" fill="#FFFFFF" stroke="#4285F4" stroke-width="5" />
+  
+  <!-- SLO Text -->
+  <text x="100" y="85" font-family="Arial, sans-serif" font-weight="bold" font-size="36" text-anchor="middle" fill="#4285F4">SLO</text>
+  
+  <!-- Corgi Silhouette -->
+  <path d="M130,130 C160,130 160,90 130,90 C130,60 70,60 70,90 C40,90 40,130 70,130 Z" fill="#F9AB00" />
+  
+  <!-- Corgi Ears -->
+  <path d="M70,90 C60,70 80,60 85,75 Z" fill="#F9AB00" />
+  <path d="M130,90 C140,70 120,60 115,75 Z" fill="#F9AB00" />
+  
+  <!-- Corgi Face -->
+  <circle cx="85" cy="105" r="5" fill="#000000" /> <!-- Left Eye -->
+  <circle cx="115" cy="105" r="5" fill="#000000" /> <!-- Right Eye -->
+  <ellipse cx="100" cy="115" rx="10" ry="5" fill="#000000" /> <!-- Nose -->
+  
+  <!-- Manager Text -->
+  <text x="100" y="155" font-family="Arial, sans-serif" font-weight="bold" font-size="18" text-anchor="middle" fill="#34A853">MANAGER</text>
+</svg> 

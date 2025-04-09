@@ -1,0 +1,250 @@
+/* Animations for Corgi SLO Manager */
+
+/* ===== Fade In ===== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn var(--transition-normal) var(--transition-ease) forwards;
+}
+
+/* ===== Fade Out ===== */
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.fade-out {
+    animation: fadeOut var(--transition-normal) var(--transition-ease) forwards;
+}
+
+/* ===== Slide In ===== */
+@keyframes slideIn {
+    from { 
+        transform: translateX(30px);
+        opacity: 0;
+    }
+    to { 
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.slide-in {
+    animation: slideIn var(--transition-normal) var(--transition-ease) forwards;
+}
+
+/* ===== Slide Out ===== */
+@keyframes slideOut {
+    from { 
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to { 
+        transform: translateX(30px);
+        opacity: 0;
+    }
+}
+
+.slide-out {
+    animation: slideOut var(--transition-normal) var(--transition-ease) forwards;
+}
+
+/* ===== Slide Up ===== */
+@keyframes slideUp {
+    from { 
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to { 
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-up {
+    animation: slideUp var(--transition-normal) var(--transition-ease) forwards;
+}
+
+/* ===== Slide Down ===== */
+@keyframes slideDown {
+    from { 
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to { 
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-down {
+    animation: slideDown var(--transition-normal) var(--transition-ease) forwards;
+}
+
+/* ===== Scale In ===== */
+@keyframes scaleIn {
+    from { 
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to { 
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.scale-in {
+    animation: scaleIn var(--transition-normal) var(--transition-ease) forwards;
+}
+
+/* ===== Scale Out ===== */
+@keyframes scaleOut {
+    from { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    to { 
+        transform: scale(0.9);
+        opacity: 0;
+    }
+}
+
+.scale-out {
+    animation: scaleOut var(--transition-normal) var(--transition-ease) forwards;
+}
+
+/* ===== Shake ===== */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.6s ease;
+}
+
+/* ===== Pulse ===== */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: pulse 0.6s ease infinite;
+}
+
+/* ===== Spinner ===== */
+@keyframes spinner {
+    to { transform: rotate(360deg); }
+}
+
+.spinner {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spinner 0.8s linear infinite;
+}
+
+.spinner-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 1px;
+}
+
+.spinner-lg {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-width: 3px;
+}
+
+/* ===== Toast Animations ===== */
+.toast-enter {
+    animation: slideIn 0.3s ease forwards;
+}
+
+.toast-exit {
+    animation: slideOut 0.3s ease forwards;
+}
+
+/* ===== Page Transitions ===== */
+.page-enter {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.page-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 300ms, transform 300ms;
+}
+
+.page-exit {
+    opacity: 1;
+}
+
+.page-exit-active {
+    opacity: 0;
+    transition: opacity 300ms;
+}
+
+/* ===== Ripple Effect ===== */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform 0.5s, opacity 1s;
+}
+
+.ripple:active::after {
+    transform: scale(0, 0);
+    opacity: 0.3;
+    transition: 0s;
+}
+
+/* ===== Hover Animations ===== */
+.hover-lift {
+    transition: transform var(--transition-normal) var(--transition-ease);
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+}
+
+.hover-scale {
+    transition: transform var(--transition-normal) var(--transition-ease);
+}
+
+.hover-scale:hover {
+    transform: scale(1.02);
+}
+
+.hover-shadow {
+    transition: box-shadow var(--transition-normal) var(--transition-ease);
+}
+
+.hover-shadow:hover {
+    box-shadow: var(--shadow-lg);
+} 
